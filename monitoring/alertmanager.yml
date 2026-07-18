@@ -1,0 +1,22 @@
+route:
+  receiver: "default-notifier"
+  group_by: ["alertname"]
+  group_wait: 10s
+  group_interval: 1m
+  repeat_interval: 1h
+
+receivers:
+  - name: "default-notifier"
+    # Contoh untuk Discord: buat webhook di Server Settings > Integrations > Webhooks,
+    # lalu tempel URL-nya di bawah (ganti host jadi discord.com/api/webhooks/... ,
+    # atau pakai slack_configs untuk Slack incoming webhook).
+    webhook_configs:
+      - url: "https://discord.com/api/webhooks/REPLACE_WITH_YOUR_WEBHOOK_ID/REPLACE_WITH_YOUR_WEBHOOK_TOKEN/slack"
+        send_resolved: true
+
+inhibit_rules:
+  - source_match:
+      severity: "critical"
+    target_match:
+      severity: "warning"
+    equal: ["alertname"]

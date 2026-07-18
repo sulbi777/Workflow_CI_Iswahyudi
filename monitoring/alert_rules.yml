@@ -1,0 +1,53 @@
+groups:
+  - name: ml-inference-alerts
+    rules:
+      - alert: ServiceDown
+        expr: up{job="ml-inference-service"} == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Inference service tidak dapat diakses"
+          description: "Target ml-inference-service down selama > 30 detik."
+
+      - alert: HighErrorRate
+        expr: |
+          sum(rate(ml_prediction_requests_total{status="error"}[5m]))
+          /
+          sum(rate(ml_prediction_requests_total[5m]))
+          > 0.1
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Error rate prediksi tinggi"
+          description: "Lebih dari 10% request /predict gagal dalam 5 menit terakhir."
+
+      - alert: HighPredictionLatency
+        expr: |
+          histogram_quantile(0.95, sum(rate(ml_prediction_latency_seconds_bucket[5m])) by (le))
+          > 1
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Latensi prediksi tinggi"
+          description: "p95 latensi /predict melebihi 1 detik selama 2 menit."
+
+      - alert: HighCpuUsage
+        expr: ml_cpu_usage_percent > 80
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Penggunaan CPU tinggi"
+          description: "CPU usage proses inference > 80% selama 3 menit."
+
+      - alert: HighMemoryUsage
+        expr: ml_memory_usage_percent > 85
+        for: 3m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Penggunaan memori tinggi"
+          description: "Memory usage sistem > 85% selama 3 menit."
