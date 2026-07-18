@@ -84,6 +84,4 @@ ia baca dari GitHub Secrets. Yang perlu Anda lakukan di GitHub:
 
 Image akan otomatis ter-push ke `docker.io/<DOCKERHUB_USERNAME>/msml-inference:latest`.
 
-**Penting:** password Docker Hub yang sempat Anda ketik di chat sebaiknya diganti
-dulu di Docker Hub sebelum dipakai lebih lanjut, dan gunakan Access Token (bukan
-password akun) untuk semua login otomatis/CI ke depannya.
+
