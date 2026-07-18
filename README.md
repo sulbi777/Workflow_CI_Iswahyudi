@@ -1,4 +1,4 @@
-# Kriteria 3 Advanced — Monitoring & Logging (MSML Eksperimen Dataset)
+# Monitoring & Logging (MSML Eksperimen Dataset)
 
 Sistem monitoring untuk model prediksi produksi komoditas (ton) berdasarkan
 Provinsi + Komoditas, dibangun di atas pipeline preprocessing `automate_Iswahyudi.py`
